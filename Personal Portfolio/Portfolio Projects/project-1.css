@@ -1,0 +1,131 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box ;
+    line-height: 30px;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+body{
+    background: #080808;
+}
+
+.Project-info-page{
+    border-style: solid;
+    background-color: white;
+    margin: 30px 30px;
+    border-radius: 30px;
+    padding: 40px 40px;
+    position: relative;
+    min-width: fit-content;
+    
+    
+}
+
+.header{
+    margin-top: 30px;
+    text-align: center;
+    margin-left: 200px;
+    margin-right: 200px;
+}
+
+#sql-link{
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+
+
+.header h1{
+    font-size: 42px;
+}
+
+.Project-info-page p{
+    font-size: 20px;
+}
+
+.Project-info-page img {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.blinkit-logo{
+    width: 500px;
+}
+
+.walmart-logo{
+    width: 400px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse; /* Ensures borders are shared between cells */
+    margin: 20px 0;
+}
+table, th, td {
+    border: 1px solid black; /* Adds border to the table, header, and cells */
+}
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2; /* Light background color for the header */
+}
+
+.project-details{
+    margin: 0px 200px;
+    margin-top: 30px;
+}
+
+
+pre {
+    background-color: #f4f4f4;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 19px;
+    white-space: pre-wrap; 
+}
+
+.project-details h2{
+    margin-top: 40px;
+}
+
+.tasks{
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+h3{
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.pivot-tables img {
+    width: 100%;
+    max-width: 1300px;  
+    height: auto;       
+    object-fit: contain;
+    margin-bottom: 20px; 
+}
+
+.data-dashboard img,.blinkit-dashboard-img{
+    width: 100%;
+    max-width: 1300px;  
+    height: auto;       
+    object-fit: contain;
+    margin-top: 20px;   
+}
+
+.thankyou-text{
+    margin-top: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}

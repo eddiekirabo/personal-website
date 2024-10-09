@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="Ie=edge">
+        <title>Walmart Project</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-sql.min.js"></script>
+        <link rel="stylesheet" href="project-1.css"> 
+    </head>
+    <body>
+        <div class="Project-info-page">
+            <div class="header">
+                <h1><span style="color: rgb(0, 85, 255);">Walmart</span> Sales Data Analysis</h1>
+                <p>
+                    This project focuses on analyzing Walmart sales data to identify the top-performing branches and products, understand sales trends for different products, and study customer behavior. The primary goal is to explore how sales strategies can be optimized and improved.
+                    The dataset was sourced from the <a target="_blank" href="https://www.kaggle.com/c/walmart-recruiting-store-sales-forecasting">Kaggle Walmart Sales Forecasting Competition.</a> <br>
+                    The competition involved providing historical sales data from 45 Walmart stores across various regions.
+                </p>
+            </div>
+            <img class="walmart-logo" src="WALMART SQL/walmart-logo-vector.png" >
+            <div class="project-details">
+                <h2>Project Purpose</h2>
+                <p>The main objective of this project is to gain insights into Walmart's sales data to better understand the factors influencing sales performance across different branches.</p>
+                <a href="#sql-div" id="sql-link">See SQL Script</a>
+                <h2>
+                    About the Data
+                </h2>
+                <p>
+                    The dataset was obtained from the Kaggle Walmart Sales Forecasting Competition and contains sales records from three Walmart branches located in Mandalay, Yangon, and Naypyitaw. It consists of 17 columns and 1,000 rows of data.
+                </p>
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Column</th>
+                                <th>Description</th>
+                                <th>Data Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>invoice_id</td>
+                                <td>Invoice number of the sale</td>
+                                <td>VARCHAR(30)</td>
+                            </tr>
+                            <tr>
+                                <td>branch</td>
+                                <td>Branch where the sale occurred</td>
+                                <td>VARCHAR(5)</td>
+                            </tr>
+                            <tr>
+                                <td>city</td>
+                                <td>Location of the branch</td>
+                                <td>VARCHAR(30)</td>
+                            </tr>
+                            <tr>
+                                <td>customer_type</td>
+                                <td>Type of customer</td>
+                                <td>VARCHAR(30)</td>
+                            </tr>
+                            <tr>
+                                <td>gender</td>
+                                <td>Gender of the customer</td>
+                                <td>VARCHAR(10)</td>
+                            </tr>
+                            <tr>
+                                <td>product_line</td>
+                                <td>Line of products sold</td>
+                                <td>VARCHAR(100)</td>
+                            </tr>
+                            <tr>
+                                <td>unit_price</td>
+                                <td>Price per unit of the product</td>
+                                <td>DECIMAL(10,2)</td>
+                            </tr>
+                            <tr>
+                                <td>quantity</td>
+                                <td>Quantity of products sold</td>
+                                <td>INT</td>
+                            </tr>
+                            <tr>
+                                <td>VAT</td>
+                                <td>Value Added Tax (tax on the purchase)</td>
+                                <td>FLOAT(6,4)</td>
+                            </tr>
+                            <tr>
+                                <td>total</td>
+                                <td>Total cost of the purchase</td>
+                                <td>DECIMAL(10,2)</td>
+                            </tr>
+                            <tr>
+                                <td>date</td>
+                                <td>Date of the transaction</td>
+                                <td>DATE</td>
+                            </tr>
+                            <tr>
+                                <td>time</td>
+                                <td>Time of the transaction</td>
+                                <td>TIMESTAMP</td>
+                            </tr>
+                            <tr>
+                                <td>payment_method</td>
+                                <td>Payment method used</td>
+                                <td>DECIMAL(10,2)</td>
+                            </tr>
+                            <tr>
+                                <td>cogs</td>
+                                <td>Cost of Goods Sold</td>
+                                <td>DECIMAL(10,2)</td>
+                            </tr>
+                            <tr>
+                                <td>gross_margin_percentage</td>
+                                <td>Gross margin percentage</td>
+                                <td>FLOAT(11,9)</td>
+                            </tr>
+                            <tr>
+                                <td>gross_income</td>
+                                <td>Gross income from the sale</td>
+                                <td>DECIMAL(10,2)</td>
+                            </tr>
+                            <tr>
+                                <td>rating</td>
+                                <td>Customer rating</td>
+                                <td>FLOAT(2,1)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h2>Analysis Overview</h2>
+                    <h3>Product Analysis</h3>
+                    <p>
+                        Analyze the performance of different product lines, identify the best-performing lines, and highlight product lines that require improvement.
+                    </p>
+
+                    <h2>
+                        Sales Analysis
+                    </h2>
+                    <p>
+                        Study sales trends across product lines to evaluate the effectiveness of sales strategies and determine necessary adjustments to increase sales.
+                    </p>
+                    <h2>Customer Analysis</h2>
+                    <p>
+                        Examine customer segments, their purchasing patterns, and the profitability of each segment.
+                    </p>
+                    <H2>Approach</H2>
+                    <h3>Data Wrangling</h3>
+                    <p>
+                        Inspect the data for NULL and missing values, and replace or handle them as necessary. <br> 
+                        Create a database to organize the data and remove any null values by setting fields as NOT NULL.
+                    </p>
+                    <h3>Feature Engineering</h3>
+                    <p>
+                        Add a time_of_day column to categorize sales into Morning, Afternoon, and Evening periods to determine when most sales occur. <br>
+                        Add a day_name column to track which day of the week transactions occur, helping to identify the busiest days. <br>
+                        Add a month_name column to understand the sales and profit patterns across months.
+                    </p>
+                    <h3>Exploratory Data Analysis (EDA)</h3>
+                    <p>
+                        Perform exploratory analysis to answer the project’s key business questions.
+                    </p>
+                    <h2>
+                        Business Question to Address
+                    </h2>
+                    <h3>
+                        Generic Questions
+                    </h3>
+                    <li>How many unique cities are in the dataset?</li>
+                    <li>What city corresponds to each branch?</li>
+                    <h3>Product Questions</h3>
+                    <li>How many unique product lines exist?</li>
+                    <li>Which is the most common payment method?</li>
+                    <li>What is the top-selling product line?</li>
+                    <li>What is the total monthly revenue?</li>
+                    <li>Which month had the highest Cost of Goods Sold (COGS)?</li>
+                    <li>Which product line generated the most revenue?</li>
+                    <h3>Sales Questions</h3>
+                    <li>How many sales occurred during each time of day?</li>
+                    <li>Which customer type brings in the most revenue?</li>
+                    <li>Which city has the highest VAT (Value Added Tax)?</li>
+                    <li>Which customer type pays the most VAT?</li>
+                    <h3>Customer Questions</h3>
+                    <li>How many unique customer types exist?</li>
+                    <li>What is the most common customer type?</li>
+                    <li>Which customer type buys the most?</li>
+                    <li>What is the gender distribution of customers per branch?</li>
+                    <h3>Revenue and Profit Calculations</h3>
+                    <p>
+                        COGS (Cost of Goods Sold) = unit_price * quantity <br>
+                        VAT = 5% * COGS <br>
+                        Total Sales = COGS + VAT <br>
+                        Gross Profit = Total Sales - COGS <br>
+                        Gross Margin = Gross Profit / Total Sales <br>
+                    </p>
+                    <h3>Example Calculation</h3>
+                    <p>
+                        Unit Price = 45.79 <br>
+                        Quantity = 7 <br>
+                        COGS = 45.79 * 7 = 320.53 <br>
+                        VAT = 5% of 320.53 = 16.03 <br>
+                        Total Sales = 320.53 + 16.03 = 336.56 <br>
+                        Gross Margin = (Gross Income / Total Sales) = 4.76%
+                    </p>
+                    <h2>Conclusion</h2>
+                    <p>
+                        The insights generated from this analysis will help improve Walmart’s sales strategies by identifying top-performing branches, understanding customer behavior, and recognizing product lines that need attention. 
+                     </p>
+                    <h2>SQL SYNTAX</h2>
+
+                     <div id="sql-div">
+                        
+                        <pre><code class="language-sql">
+                            CREATE DATABASE IF NOT EXISTS salesDataWalmart;
+        
+                            CREATE TABLE IF NOT EXISTS sales(
+                                invoice_id VARCHAR(30) NOT NULL PRIMARY KEY,
+                                branch VARCHAR(5) NOT NULL,
+                                city VARCHAR(30) NOT NULL,
+                                customer_type VARCHAR(30) NOT NULL,
+                                gender VARCHAR (10) NOT NULL,
+                                product_line VARCHAR(100) NOT NULL,
+                                unit_price DECIMAL(10,2) NOT NULL,
+                                quantity INT NOT NULL,
+                                VAT FLOAT(6,4) NOT NULL,
+                                total DECIMAL(12,4) NOT NULL,
+                                date DATETIME NOT NULL,
+                                time TIME NOT NULL,
+                                payment_method VARCHAR(15) NOT NULL,
+                                cogs DECIMAL(10,2) NOT NULL,
+                                gross_margin_pct FLOAT(11,9),
+                                gross_income DECIMAL(12,4) NOT NULL,
+                                rating FLOAT(2,1)
+                            );sales
+        
+                            -- -------Feature Engineering------------
+                            -- -------time_of_day--------------------
+                            SELECT 
+                                time,
+                                (CASE
+                                    WHEN 'time' BETWEEN "00:00:00" and "12:00:00" THEN "Morning"
+                                    WHEN 'time' BETWEEN "12:01:00" and "16:00:00" THEN "Morning"
+                                    ELSE "Evening"
+                                END
+                                ) AS time_of_day
+                                FROM sales;
+        
+                            ALTER TABLE sales ADD COLUMN time_of_day VARCHAR(20);
+        
+                            UPDATE sales
+                            SET time_of_day =(
+                                CASE
+                                    WHEN 'time' BETWEEN "00:00:00" and "12:00:00" THEN "Morning"
+                                    WHEN 'time' BETWEEN "12:01:00" and "16:00:00" THEN "Morning"
+                                    ELSE "Evening"
+                                END
+                            );
+        
+                            -- day_name-----------
+                            SELECT
+                                date,
+                                DAYNAME(date)
+                            FROM sales;
+        
+                            ALTER TABLE sales ADD COLUMN day_name VARCHAR(10);
+        
+                            UPDATE sales
+                            SET day_name= DAYNAME(date);
+        
+                            -- --------------MONTH NAME----------
+                            SELECT 
+                                date,
+                                MONTHNAME(date)
+                            FROM sales;
+        
+                            ALTER TABLE sales ADD COLUMN month_name VARCHAR(10);
+        
+                            UPDATE sales
+                            SET month_name = MONTHNAME(date);
+        
+                            -- ---------------------------------------------------------
+                            -- ------------------Generic--------------------------------
+        
+                            -- How many unique cities does the data have?------------------
+                            SELECT 
+                                DISTINCT city
+                            FROM sales;
+        
+                            -- How many unique branches does the data have?------------------
+        
+                            SELECT 
+                                DISTINCT branch
+                            FROM sales;
+        
+                            -- -----------------In which city is each branch?---------
+        
+                            SELECT 
+                                DISTINCT city,
+                                branch
+                            FROM sales;
+        
+                            -- -----------------------Product-----------
+                            -- -------------------- How many unqiuque product lines does the data have?------
+        
+                            SELECT 
+                                COUNT(DISTINCT product_line)
+                            FROM sales;
+        
+                            -- ------------What is the most common payment method?-----
+                            SELECT
+                                payment_method,
+                                COUNT(payment_method) AS cnt
+                            FROM sales
+                            GROUP BY payment_method
+                            ORDER BY cnt DESC;
+        
+                            -- -------------- What is the most popular product line?--------
+                            SELECT
+                                product_line,
+                                COUNT(product_line) AS cnt
+                            FROM sales
+                            GROUP BY product_line
+                            ORDER BY cnt DESC;
+        
+                            -- --------What is the total revenue by month?-------------------
+                            SELECT
+                                month_name AS month,
+                                SUM(total) AS total_revenue
+                            FROM sales
+                            GROUP BY month_name
+                            ORDER BY total_revenue DESC;
+        
+                            -- ----------- What month had the largest COGS?----------------
+                            SELECT 
+                                month_name AS month,
+                                SUM(cogs) AS cogs
+                            FROM sales
+                            GROUP BY month_name
+                            ORDER BY cogs DESC;
+        
+                            -- -------------- What product line had the largest revenue?--------
+                            SELECT 
+                                product_line,
+                                SUM(total) AS total_revenue
+                            FROM sales
+                            GROUP BY product_line
+                            ORDER BY total_revenue DESC;
+        
+                            -- -------------What is the city with the largest revenue?--------
+                            SELECT
+                                city,
+                                branch,
+                                SUM(total) AS revenue
+                            FROM sales
+                            GROUP BY city,branch
+                            ORDER BY sum(total) DESC;
+        
+                            -- --------------What product line hasd the largest VAT?-------------
+                            SELECT 
+                                product_line,
+                                AVG(VAT) AS avg_tax
+                            FROM sales
+                            GROUP BY product_line
+                            ORDER BY avg_tax DESC;
+        
+                            -- -----------Which branch sold more products than average product sold?-----
+                            SELECT 
+                                branch,
+                                SUM(quantity) AS qty
+                            FROM sales
+                            GROUP BY branch
+                            HAVING SUM(quantity) > (SELECT AVG(quantity) FROM sales);
+        
+                            -- -------------What is the most common product line by gender?-----
+                            SELECT
+                                gender,
+                                product_line,
+                                COUNT(gender) AS total_cnt
+                            FROM sales
+                            GROUP BY gender, product_line
+                            ORDER BY total_cnt DESC;
+        
+                            -- What is the average rating of each product line?
+                            SELECT
+                                ROUND(AVG(rating), 2) as avg_rating,
+                                product_line
+                            FROM sales
+                            GROUP BY product_line
+                            ORDER BY avg_rating DESC;
+        
+                            -- Fetch each product line and add a column to those product 
+                            -- line showing "Good", "Bad". Good if its greater than average sales
+                            SELECT 
+                                AVG(total) AS avg_sales
+                            FROM sales;
+        
+                            SELECT
+                                product_line,
+                                CASE
+                                    WHEN AVG(total) > (SELECT 
+                                    AVG(total) FROM sales) THEN "Good"
+                                    ELSE "Bad"
+                                END AS remark
+                            FROM sales
+                            GROUP BY product_line;
+        
+                            -- ---------------------------------------------------------------------
+                            -- -------------------------------- Sales-------------------------------
+                            -- ----------Number of sales made in each time of the day per weekday----
+                            SELECT
+                                time_of_day,
+                                COUNT(*) AS total_sales
+                            FROM sales
+                            WHERE day_name = "Sunday"
+                            GROUP BY time_of_day 
+                            ORDER BY total_sales DESC;
+                            -- Evenings experience most sales, the stores are 
+                            -- filled during the evening hours
+        
+                            -- Which of the customer types brings the most revenue?
+                            SELECT
+                                customer_type,
+                                SUM(total) AS total_revenue
+                            FROM sales
+                            GROUP BY customer_type
+                            ORDER BY total_revenue;
+        
+                            -- Which city has the largest tax/VAT percent?
+                            SELECT
+                                city,
+                                ROUND(AVG(tax_pct), 2) AS avg_tax_pct
+                            FROM sales
+                            GROUP BY city 
+                            ORDER BY avg_tax_pct DESC;
+        
+                            -- Which customer type pays the most in VAT?
+                            SELECT
+                                customer_type,
+                                AVG(tax_pct) AS total_tax
+                            FROM sales
+                            GROUP BY customer_type
+                            ORDER BY total_tax;
+        
+                            -- --------------------------------------------------------------------
+                            -- -------------------------- Customers -------------------------------
+                            -- --------------------------------------------------------------------
+        
+                            -- How many unique customer types does the data have?
+                            SELECT
+                                DISTINCT customer_type
+                            FROM sales;
+        
+                            -- How many unique payment methods does the data have?
+                            SELECT
+                                DISTINCT payment
+                            FROM sales;
+        
+        
+                            -- What is the most common customer type?
+                            SELECT
+                                customer_type,
+                                count(*) as count
+                            FROM sales
+                            GROUP BY customer_type
+                            ORDER BY count DESC;
+        
+                            -- Which customer type buys the most?
+                            SELECT
+                                customer_type,
+                                COUNT(*)
+                            FROM sales
+                            GROUP BY customer_type;
+        
+        
+                            -- What is the gender of most of the customers?
+                            SELECT
+                                gender,
+                                COUNT(*) as gender_cnt
+                            FROM sales
+                            GROUP BY gender
+                            ORDER BY gender_cnt DESC;
+        
+                            -- What is the gender distribution per branch?
+                            SELECT
+                                gender,
+                                COUNT(*) as gender_cnt
+                            FROM sales
+                            WHERE branch = "C"
+                            GROUP BY gender
+                            ORDER BY gender_cnt DESC;
+                            -- Gender per branch is more or less the same hence, I don't think has
+                            -- an effect of the sales per branch and other factors.
+        
+                            -- Which time of the day do customers give most ratings?
+                            SELECT
+                                time_of_day,
+                                AVG(rating) AS avg_rating
+                            FROM sales
+                            GROUP BY time_of_day
+                            ORDER BY avg_rating DESC;
+                            -- Looks like time of the day does not really affect the rating, its
+                            -- more or less the same rating each time of the day.alter
+        
+        
+                            -- Which time of the day do customers give most ratings per branch?
+                            SELECT
+                                time_of_day,
+                                AVG(rating) AS avg_rating
+                            FROM sales
+                            WHERE branch = "A"
+                            GROUP BY time_of_day
+                            ORDER BY avg_rating DESC;
+                            -- Branch A and C are doing well in ratings, branch B needs to do a 
+                            -- little more to get better ratings.
+        
+        
+                            -- Which day fo the week has the best avg ratings?
+                            SELECT
+                                day_name,
+                                AVG(rating) AS avg_rating
+                            FROM sales
+                            GROUP BY day_name 
+                            ORDER BY avg_rating DESC;
+                            -- Mon, Tue and Friday are the top best days for good ratings
+                            -- why is that the case, how many sales are made on these days?
+        
+        
+        
+                            -- Which day of the week has the best average ratings per branch?
+                            SELECT 
+                                day_name,
+                                COUNT(day_name) total_sales
+                            FROM sales
+                            WHERE branch = "C"
+                            GROUP BY day_name
+                            ORDER BY total_sales DESC;
+                        </code></pre>
+                    </div>
+            </div>
+            
+        </div>
+        <script>
+            // Custom smooth scroll duration
+            document.getElementById('sql-link').addEventListener('click', function(e) {
+                e.preventDefault(); // Prevent the default anchor behavior
+        
+                // Smooth scroll to the target div with 0.5s duration
+                document.querySelector('#sql-div').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        </script>
+    </body>
+</html>
